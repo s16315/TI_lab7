@@ -31,6 +31,37 @@ app.get('/genre/:gen', function (req, res) {
     var books = baza({genre: req.params.gen}).select("title", "author");
     res.json(books);
 });
+app.get('/lastgenre', function (req, res) {
+    var session=req.session;
+    res.send(session.lastGenre);
+});
+
+app.post('/genre/:gen', function (req, res) {
+        var session=req.session;
+        session.lastGenre = req.params.gen;
+        if (session.username === "admin") {
+            if (
+                baza.insert({
+                    genre: req.params.gen,
+                    author: req.body.author,
+                    title: req.body.title,
+                })
+            ) {res.send("bookAdded");}
+        }else {res.send("notLoggedIn");}
+    }
+);
+
+app.post('/login', function (req, res) {
+    var session=req.session;
+    if (req.body.username === "admin" && req.body.password === "nimda"){
+        session.username = "admin";
+        res.send("logged");
+    }else {
+        session.username = "";
+        res.send("notLoggedIn");
+    }
+});
+
 
 app.listen(3000, function () {
     console.log('Serwer działa na porcie 3000');

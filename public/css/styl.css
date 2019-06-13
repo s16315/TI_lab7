@@ -57,3 +57,17 @@ nav.small ul li:not(:first-child) {
 nav.small ul li {
     display: inline;
 }
+table {
+    border: 1px solid black;
+}
+
+td {
+    border: 1px solid black;
+    padding: 6px;
+}
+
+.statement {
+    color: red;
+    font-weight: bold;
+    padding-top: 0.8em
+}
